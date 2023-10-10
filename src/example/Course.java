@@ -6,13 +6,13 @@ import java.util.List;
 public class Course {
     private int id;
     private String name;
-
+    private List<Student> students;
     private Teacher teacher;
 
-    public Course(int id, String name, Teacher teacher) {
-        this.id = id;
+    public Course(String name, Teacher teacher) {
         this.name = name;
         this.teacher = teacher;
+        students = new ArrayList<>();
     }
 
     public int getId() {
@@ -37,5 +37,24 @@ public class Course {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudent(Student student){
+        if(!students.contains(student)){
+            students.add(student);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name + "      gv: " + teacher.getName();
     }
 }

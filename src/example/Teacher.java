@@ -8,14 +8,16 @@ public class Teacher extends Person{
     private String address;
     private String phone;
 
-    private List<Course> cources;
+    private List<Student> students;
 
-    public Teacher(String name, int age, String sex, int id, String address, String phone) {
+    private List<Course> courses;
+
+    public Teacher(String name, int age, String sex, String address, String phone) {
         super(name, age, sex);
-        this.id = id;
         this.address = address;
         this.phone = phone;
-        cources = new ArrayList<>();
+        students = new ArrayList<>();
+        courses = new ArrayList<>();
     }
 
     public int getId() {
@@ -42,15 +44,35 @@ public class Teacher extends Person{
         this.phone = phone;
     }
 
-    public List<Course> getCources() {
-        return cources;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setCources(List<Course> cources) {
-        this.cources = cources;
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addStudent(Student student){
+        if(!students.contains(student)){
+            students.add(student);
+        }
     }
 
     public void addCourse(Course course){
-        cources.add(course);
+        if(!courses.contains(course)){
+            courses.add(course);
+        }
+    }
+    @Override
+    public String toString() {
+        return id + " " + super.getName();
     }
 }

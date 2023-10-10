@@ -4,28 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Student extends Person{
-    private int id;
+    private String id;
     private String address;
     private String phone;
 
-    private String term;
+    private int term;
 
     private List<Course> courses;
 
-    public Student(String name, int age, String sex, int id, String address, String phone, String term) {
+    private List<Teacher> teachers;
+
+    public Student(String id, String name, int age, String sex, String address, String phone, int term) {
         super(name, age, sex);
         this.id = id;
         this.address = address;
         this.phone = phone;
         this.term = term;
         courses = new ArrayList<>();
+        teachers = new ArrayList<>();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,11 +48,11 @@ public class Student extends Person{
         this.phone = phone;
     }
 
-    public String getTerm() {
+    public int getTerm() {
         return term;
     }
 
-    public void setTerm(String term) {
+    public void setTerm(int term) {
         this.term = term;
     }
 
@@ -59,5 +62,17 @@ public class Student extends Person{
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+    public void addCourse(Course course){
+        if(!courses.contains(course)){
+            courses.add(course);
+        }
     }
 }
