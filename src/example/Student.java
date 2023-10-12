@@ -75,4 +75,9 @@ public class Student extends Person{
             courses.add(course);
         }
     }
+
+    @Override
+    public String toString() {
+        return id + "   " + this.getName();
+    }
 }

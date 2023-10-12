@@ -1,19 +1,19 @@
 package example;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner INPUT = new Scanner(System.in);
-    private static final CourseRegistrationManagerment CRM = new CourseRegistrationManagerment();
+    private static final Management MANAGE = new CourseRegistrationManagement();
     static Student enterStudent(){
         String id;
         do {
             System.out.print("Enter student's id: ");
             id = INPUT.next();
             INPUT.nextLine();
-            List<Student> students = CRM.getStudents();
+            CourseRegistrationManagement crm = (CourseRegistrationManagement) MANAGE;
+            List<Student> students = crm.getStudents();
             if(!students.isEmpty()){
                 for (Student student : students){
                     if(student.getId().equalsIgnoreCase(id)){
@@ -159,7 +159,7 @@ public class Main {
         System.out.println("1. Add Student.");
         do{
             Student student = enterStudent();
-            CRM.addStudent(student);
+            MANAGE.addStudent(student);
             String choice = "";
             do {
                 System.out.print("Do you want to continue? (y/n): ");
@@ -177,7 +177,7 @@ public class Main {
         System.out.println("2. Add Teacher.");
         do{
             Teacher teacher = enterTeacher();
-            CRM.addTeacher(teacher);
+            MANAGE.addTeacher(teacher);
             String choice;
             do {
                 System.out.print("Do you want to continue? (y/n): ");
@@ -204,7 +204,8 @@ public class Main {
                     System.out.println("Please enter your course's name!");
                 }
             }while(name.trim().isEmpty());
-            List<Teacher> teachers = CRM.getTeachers();
+            CourseRegistrationManagement crm = (CourseRegistrationManagement) MANAGE;
+            List<Teacher> teachers = crm.getTeachers();
             for(Teacher teacher : teachers){
                 System.out.println(teacher);
             }
@@ -223,7 +224,7 @@ public class Main {
             }while(chooseTeacher < 1 || chooseTeacher > teachers.size());
             Teacher teacher = teachers.get(chooseTeacher - 1);
             Course course = new Course(name, teacher);
-            CRM.addCourse(course);
+            MANAGE.addCourse(course);
             teacher.getCourses().add(course);
 
             String choice;
@@ -240,5 +241,78 @@ public class Main {
                 break;
             }
         }while (true);
-    }
+
+        System.out.println("4. Register Course.");
+
+        do {
+            CourseRegistrationManagement crm = (CourseRegistrationManagement) MANAGE;
+            String id;
+            do {
+                System.out.print("Enter your ID: ");
+                id = INPUT.next();
+                INPUT.nextLine();
+                if(id.trim().isEmpty()){
+                    System.out.println("Please enter your ID!");
+                }
+            }while(id.trim().isEmpty());
+
+            boolean found = false;
+            Student student = null;
+            List<Student> students = crm.getStudents();
+            if(!students.isEmpty()){
+                for (Student st : students){
+                    if(st.getId().equalsIgnoreCase(id)){
+                        student = st;
+                        found = true;
+                    }
+                }
+            }
+            if(!found){
+                System.out.println("ID is not correct!");
+                continue;
+            }
+
+            List<Course> courses = crm.getCourses();
+            for(Course course : courses){
+                System.out.println(course);
+            }
+            int chooseCourse = 0;
+            do {
+                try {
+                    System.out.print("Choose the couse: ");
+                    chooseCourse = INPUT.nextInt();
+                }catch (Exception e){
+                    System.out.println("Please enter a number!");
+                    continue;
+                }
+                if(chooseCourse < 1 || chooseCourse > courses.size()){
+                    System.out.println("Please choose the teacher in the list!");
+                }
+            }while(chooseCourse < 1 || chooseCourse > courses.size());
+            Course course = courses.get(chooseCourse - 1);
+            crm.registerCourse(student, course);
+            String choice;
+            do {
+                System.out.print("Do you want to continue? (y/n): ");
+                choice = INPUT.next();
+                INPUT.nextLine();
+                if(!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n")){
+                    System.out.println("Please enter y or n!");
+                }
+            }while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
+
+            if(choice.equalsIgnoreCase("n")){
+                break;
+            }
+        }while(true);
+
+        CourseRegistrationManagement crm = (CourseRegistrationManagement) MANAGE;
+        List<Teacher> teachers = crm.getTeachers();
+        for(Teacher teacher : teachers){
+            List<Student> students = teacher.getStudents();
+            for(Student student : students){
+                System.out.println(student);
+            }
+        }
+     }
 }
